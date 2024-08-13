@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use clipboard::{ClipboardContext, ClipboardProvider};
 use std::{
     sync::{Arc, Mutex},
     time::Duration,
@@ -10,6 +11,30 @@ use tokio::time::sleep;
 
 #[derive(Default)]
 struct ClipboardHistory(Arc<Mutex<Vec<String>>>);
+
+#[tauri::command]
+fn get_clipboard_history(history: tauri::State<ClipboardHistory>) -> Vec<String> {
+    history.0.lock().unwrap().clone()
+}
+
+#[tauri::command]
+fn copy_to_system(content: String) {
+    let mut ctx: ClipboardContext = ClipboardProvider::new().unwrap();
+    ctx.set_contents(content).unwrap();
+}
+
+#[tauri::command]
+fn delete_item(history: tauri::State<ClipboardHistory>, item: String) {
+    let index = history
+        .0
+        .lock()
+        .unwrap()
+        .clone()
+        .iter()
+        .position(|s| &item == s)
+        .unwrap();
+    history.0.lock().unwrap().remove(index);
+}
 
 fn main() {
     tauri::Builder::default()
@@ -39,7 +64,11 @@ fn main() {
             app.manage(clipboard_history);
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![])
+        .invoke_handler(tauri::generate_handler![
+            get_clipboard_history,
+            copy_to_system,
+            delete_item
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
