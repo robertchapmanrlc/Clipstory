@@ -6,7 +6,7 @@
   },
   "package": {
     "productName": "clipstory",
-    "version": "0.0.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -18,9 +18,15 @@
     },
     "windows": [
       {
-        "title": "clipstory",
+        "fullscreen": false,
+        "focus": true,
+        "contentProtected": true,
+        "resizable": true,
+        "title": "Clipstory",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "minWidth": 500,
+        "minHeight": 400
       }
     ],
     "security": {
@@ -29,7 +35,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.clipstory.dev",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
