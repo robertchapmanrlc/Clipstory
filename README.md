@@ -25,7 +25,7 @@ When the application is running, it will keep a list of things copied to the sys
 
 Specific items can be searched for with the search bar, and the button next to it can place the currently selected item to the system's clipboard without duplicating it in the application's list.
 
-![ClipStory Screenshot](https://i.ibb.co/DG257b2/Clip-Story-Screenshot.png)
+![ClipStory Screenshot](https://i.ibb.co/TPrcytS/Clip-Story-Screenshot.webp)
 
 ## Built With
 * Rust
